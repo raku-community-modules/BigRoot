@@ -1,20 +1,27 @@
 {
-  "auth" : "github:juliodcs",
-  "authors" : [
-    "Julio"
+  "auth": "zef:raku-community-modules",
+  "authors": [
+    "Julio de Castro"
   ],
-  "build-depends" : [ ],
-  "depends" : [ ],
-  "description" : "Class for supporting roots with arbitrary precision.",
-  "license" : "Artistic-2.0",
-  "name" : "BigRoot",
-  "perl" : "6.*",
-  "provides" : {
-    "BigRoot" : "lib/BigRoot.rakumod"
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "Class for supporting roots with arbitrary precision.",
+  "license": "Artistic-2.0",
+  "name": "BigRoot",
+  "perl": "6.*",
+  "provides": {
+    "BigRoot": "lib/BigRoot.rakumod"
   },
-  "resources" : [ ],
-  "source-url" : "https://github.com/juliodcs/BigRoot.git",
-  "tags" : [ ],
-  "test-depends" : [ ],
-  "version" : "0.1.0"
+  "resources": [
+  ],
+  "source-url": "https://github.com/raku-community-modules/BigRoot.git",
+  "tags": [
+    "MATH",
+    "ROOT"
+  ],
+  "test-depends": [
+  ],
+  "version": "0.1.1"
 }

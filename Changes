@@ -1,10 +1,15 @@
 Revision history for BigRoot
 
+{{$NEXT}}
+
+0.1.1  2024-12-25T12:42:37+01:00
+    - First release as a Raku Community module
+
 0.1.0  2020-09-19T13:01:51+02:00
-  - Fix META6.json version
+    - Fix META6.json version
 
 0.0.1 - 0.0.9
-  - Fix META6.json version
-  - Refactor first "01" tests
-  - Fix and add more details to Readme.md and POD
-  - Initial version
+    - Fix META6.json version
+    - Refactor first "01" tests
+    - Fix and add more details to Readme.md and POD
+    - Initial version

@@ -1,4 +1,4 @@
-unit class BigRoot:ver<0.1.0>:auth<github:juliodcs>;
+unit class BigRoot;
 
 # Subset definitions
 my subset PositiveNumber where { $_ >= 0 and $_ < ∞ };
@@ -37,19 +37,21 @@ method newton's-root(RootNumber:D :$root, PositiveNumber:D :$number) returns Fat
         self!result($number, $root) = self!calculate-root: $root, $number;
     }
 
-    return self!result: $number, $root;
+    self!result: $number, $root
 }
 
 method newton's-sqrt(PositiveNumber:D $number) {
-    return self.newton's-root: root => 2, :$number;
+    self.newton's-root: root => 2, :$number
 }
 
 # Calculates a root via Newton's method.
 # If the root is a rational number, the exponentiation is done first:
 # For example: 0.4-root(20) ==> (2/5)-root(20) ==> 2-root(20**5)
-method !calculate-root(RootNumber:D $root, PositiveNumber:D $number) returns FatRat:D {
+method !calculate-root(
+  RootNumber:D $root, PositiveNumber:D $number
+--> FatRat:D) {
     my (Int $numerator, Int $denominator) = $root.FatRat.nude;
-    return self!calculate-uint-root: $numerator, $number.FatRat ** $denominator;
+    self!calculate-uint-root: $numerator, $number.FatRat ** $denominator
 }
 
 # Calculate Newton's root for an UInt-based root
@@ -84,7 +86,7 @@ method !calculate-uint-root(UInt:D $root, PositiveNumber:D $number) returns FatR
     }
 
     # return rounded result for required precision
-    return $guess.round: FatRat.new: 1, 10 ** self.precision;
+    $guess.round: FatRat.new: 1, 10 ** self.precision
 }
 
 =begin pod
@@ -95,61 +97,74 @@ BigRoot - Class for supporting roots with arbitrary precision.
 
 =head1 SYNOPSIS
 
-    use BigRoot;
+=begin code :lang<raku>
 
-    # Can change precision level (Default precision is 30)
-    BigRoot.precision = 50;
+use BigRoot;
 
-    my $root2 = BigRoot.newton's-sqrt: 2;
-    # 1.41421356237309504880168872420969807856967187537695
+# Can change precision level (Default precision is 30)
+BigRoot.precision = 50;
 
-    say $root2.WHAT;
-    # (FatRat)
+my $root2 = BigRoot.newton's-sqrt: 2;
+# 1.41421356237309504880168872420969807856967187537695
 
-    # Can use other root numbers
-    say BigRoot.newton's-root: root => 3, number => 30;
-    # 3.10723250595385886687766242752238636285490682906742
+say $root2.WHAT;
+# (FatRat)
 
-    # Numbers can be Int, Rational and Num:
-    say BigRoot.newton's-sqrt: 2.123;
-    # 1.45705181788431944566113502812562734420538186940001
+# Can use other root numbers
+say BigRoot.newton's-root: root => 3, number => 30;
+# 3.10723250595385886687766242752238636285490682906742
 
-    # Can use other rational roots
-    say BigRoot.newton's-root: root => FatRat.new(2, 3), number => 30;
-    # 164.31676725154983403709093484024064018582340849939498
+# Numbers can be Int, Rational and Num:
+say BigRoot.newton's-sqrt: 2.123;
+# 1.45705181788431944566113502812562734420538186940001
 
-    # Results are rounded:
+# Can use other rational roots
+say BigRoot.newton's-root: root => FatRat.new(2, 3), number => 30;
+# 164.31676725154983403709093484024064018582340849939498
 
-    BigRoot.precision = 8;
-    say BigRoot.newton's-sqrt: 2;
-    # 1.41421356
+# Results are rounded:
 
-    BigRoot.precision = 7;
-    say BigRoot.newton's-sqrt: 2;
-    # 1.4142136
+BigRoot.precision = 8;
+say BigRoot.newton's-sqrt: 2;
+# 1.41421356
 
-    # By default, results are cached for given precision.
-    BigRoot.precision = 150_000;
-    BigRoot.newton's-sqrt: 2;
-    my $start = now;
-    BigRoot.newton's-sqrt: 2;
-    say (now - $start) < 0.1;
-    # (True)
+BigRoot.precision = 7;
+say BigRoot.newton's-sqrt: 2;
+# 1.4142136
 
-    # Cache can be disabled with:
-    BigRoot.use-cache = False;
+# By default, results are cached for given precision.
+BigRoot.precision = 150_000;
+BigRoot.newton's-sqrt: 2;
+my $start = now;
+BigRoot.newton's-sqrt: 2;
+say (now - $start) < 0.1;
+# (True)
+
+# Cache can be disabled with:
+BigRoot.use-cache = False;
+
+=end code
 
 =head1 DESCRIPTION
 
-This module provides a way of having arbitrary precision for roots. In order to do that it calculates the roots using L<Newton's method|https://en.wikipedia.org/wiki/Newton%27s_method> and uses raku's C<FatRat> primitives.
+This module provides a way of having arbitrary precision for roots.
+In order to do that it calculates the roots using
+L<Newton's method|https://en.wikipedia.org/wiki/Newton%27s_method>
+and uses Raku's C<FatRat> primitives.
 
-The module supports rooting C<Int>, C<Num>, and C<Rational> numbers and allows using a Rational number as the root. Also, the level of precision can be changed.
+The module supports rooting C<Int>, C<Num>, and C<Rational> numbers
+and allows using a C<Rational> number as the root. Also, the level
+of precision can be changed.
 
 =head1 METHODS
 
 =head2 method precision
 
-    method precision is rw
+=begin code :lang<raku>
+
+method precision is rw
+
+=end code
 
 Allows for getting/setting the level of precision. Defaults to 30.
 
@@ -164,13 +179,21 @@ To put precision into scale:
 
 =head2 method newton's-root
 
-    method newton's-root(RootNumber:D :$root, PositiveNumber:D :$number) returns FatRat
+=begin code :lang<raku>
+
+method newton's-root(RootNumber:D :$root, PositiveNumber:D :$number) returns FatRat
+
+=end code
 
 Calculates the nth-root for the given number
 
 =head2 method newton's-sqrt
 
-    method newton's-sqrt(PositiveNumber:D $number)
+=begin code :lang<raku>
+
+method newton's-sqrt(PositiveNumber:D $number)
+
+=end code
 
 Calculates square root for the given number.
 
@@ -178,8 +201,29 @@ Same as C<<newton's-root(root => 2, :$number)>>
 
 =head2 method use-cache
 
-    method use-cache is rw
+=begin code :lang<raku>
+
+method use-cache is rw
+
+=end code
 
 Allows enabling/disabling result cache (cache is enabled by default)
 
+=head1 AUTHOR
+
+Julio de Castro
+
+Source can be located at: https://github.com/raku-community-modules/BigRoot .
+Comments and Pull Requests are welcome.
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2020 Julio de Castro
+
+Copyright 2024 The Raku Community
+
+This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+
 =end pod
+
+# vim: expandtab shiftwidth=4

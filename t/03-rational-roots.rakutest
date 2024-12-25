@@ -1,10 +1,11 @@
-use BigRoot;
 use Test;
+
+use BigRoot;
+
+plan 6;
 
 # All results are checked with Wolfram Mathematica
 # https://www.wolfram.com/mathematica/
-
-plan 6;
 
 test-root
         precision => 80,
@@ -316,4 +317,4 @@ sub test-root(:$precision, :$root, :$number, :$expected) {
     is $result, $expected, $test-name;
 }
 
-done-testing;
+# vim: expandtab shiftwidth=4

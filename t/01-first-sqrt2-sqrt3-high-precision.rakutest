@@ -1,5 +1,6 @@
-use BigRoot;
 use Test;
+
+use BigRoot;
 
 BigRoot.precision = 20_076;
 
@@ -552,3 +553,5 @@ sub sqrt3 {
         20599078204500088787705638432815221389015815828141161340707088853967582098398990
         SQRT3
 }
+
+# vim: expandtab shiftwidth=4
